@@ -63,10 +63,10 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -75,10 +75,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -87,10 +87,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+CTRL+h split v
+bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+CTRL+v split h
+bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -149,74 +149,6 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-assign [class="firefox" instance="Navigator"] $ws3
-
-focus_follows_mouse no
-workspace_auto_back_and_forth yes
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [class="Arandr"] floating enable
-
-# special
-set_from_resource $foreground foreground #C6C6C6
-set_from_resource $background background #1C1C1C
-set_from_resource $cursorColor cursorColor #C6C6C6
-
-# black
-set_from_resource $black1 color0 #303030
-set_from_resource $black2 color8 #444444
-set $trueblack #000000
-
-# red
-set_from_resource $red1 color1 #d75f5f
-set_from_resource $red2 color9 #d75f5f
-
-# green
-set_from_resource $green1 color2 #87AF87
-set_from_resource $green2 color10 #87AF87
-
-# yellow
-set_from_resource $yellow1 color3 #ffd75f
-set_from_resource $yellow2 color11 #ffd75f
-
-# blue
-set_from_resource $blue1 color4 #87afd7
-set_from_resource $blue2 color12 #87afd7
-
-# magenta
-set_from_resource $cyan1 color5 #afafd7
-set_from_resource $cyan2 color13 #afafd7
-
-# cyan
-set_from_resource $cyan1 color6 #afd7ff
-set_from_resource $cyan2 color14 #afd7ff
-
-# white
-set_from_resource $white1 color7 #4E4E4E
-set_from_resource $white2 color15 #ffffff
-
-# hide borders
-hide_edge_borders both
-
-# class border backgr. text indicator child_border 
-client.focused 		#333333 $black2 $white2 #285577
-client.focused_inactive #333333 $background $foreground #484e50
-client.unfocused 	#333333 #222222 #888888 #292d2e #222222
-client.urgent 		$red1 $red1 $white2 $red1 $red1
-client.placeholder 	#000000 #0c0c0c $white2 #000000 0c0c0c
-
-for_window [class="URxvt*"] border pixel 1
-
-# Terminal scratchpad
-for_window [instance="urxvt_scratchpad"] move to scratchpad, border none
-bindsym $mod+Shift+t [instance="urxvt_scratchpad"] scratchpad show
-exec urxvtc -name urxvt_scratchpad
-
-# htop scratchpad
-for_window [instance="htop_scratchpad"] move to scratchpad, border none
-bindsym $mod+Shift+p [instance="htop_scratchpad"] scratchpad show
-exec urxvtc -name htop_scratchpad -e htop
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -253,24 +185,6 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# i3bar
 bar {
-    status_command i3status --config ~/.config/i3/i3status.conf
-    
-    # Disable all tray icons
-    tray_output none
-
-    # tray_output primary
-    colors {
-        background $black2
-        statusline $white2
-        separator $white2
-
-        # border background text
-        focused_workspace 	$background $background $red1
-        active_workspace 	$black2 $black1 $white2
-        inactive_workspace 	$black1 $black2 $foreground
-        urgent_workspace 	$red1 $red1 $white2
-        binding_mode 		$background $red2 $white2
-    }
+        status_command i3status
 }

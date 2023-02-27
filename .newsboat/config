@@ -1,0 +1,20 @@
+browser "qutebrowser %u"
+auto-reload yes
+bind-key j down feedlist
+bind-key k up feedlist
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key j down article
+bind-key k up article
+history-limit 0
+
+color background color223 color0
+color listnormal color223 color0
+color listnormal_unread color2 color0
+color listfocus color223 color237
+color listfocus_unread color223 color237
+color info color8 color0
+color article color223 color0
+
