@@ -14,7 +14,6 @@ require("blake.plugins.lsp.null-ls")
 require("blake.plugins.autopairs")
 require("blake.plugins.treesitter")
 require("blake.plugins.gitsigns")
-require("blake.plugins.copilot")
 
 vim.g.vimwiki_list = {
 	{
@@ -31,4 +30,3 @@ vim.g.vimwiki_ext2syntax = {
 }
 
 vim.g.vimwiki_markdown_link_ext = 1
--- vim.g.vimwiki_folding = "list"
