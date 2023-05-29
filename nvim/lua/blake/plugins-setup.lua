@@ -36,6 +36,7 @@ return packer.startup(function(use)
 	use("ellisonleao/gruvbox.nvim") -- preferred colorscheme
 	use("sainnhe/everforest")
 	use("nyngwang/nvimgelion")
+	use("maxmx03/fluoromachine.nvim")
 
 	use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
