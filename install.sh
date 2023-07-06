@@ -14,11 +14,11 @@ ln -s "$HOME/dotfiles/.zshrc" "$HOME/.zshrc"
 
 # i3
 rm -rf "$HOME/.config/i3"
-ln -s "$HOME/dotfiles/.config/i3" "$HOME/.config/i3"
+ln -s "$HOME/dotfiles/i3" "$HOME/.config/i3"
 
 # alacritty
 rm -rf "$HOME/.config/alacritty"
-ln -s "$HOME/dotfiles/.config/alacritty" "$HOME/.config/alacritty"
+ln -s "$HOME/dotfiles/alacritty" "$HOME/.config/alacritty"
 
 # xinitrc
 rm -rf "$HOME/.xinitrc"
