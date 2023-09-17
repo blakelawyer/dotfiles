@@ -1,3 +1,4 @@
 .newsboat/cache.db
 .newsboat/history.cmdline
 nvim/plugin/packer_compiled.lua
+nvim/lazy-lock.json

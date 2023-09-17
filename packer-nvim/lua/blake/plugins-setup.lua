@@ -108,6 +108,11 @@ return packer.startup(function(use)
 		"vimwiki/vimwiki",
 	})
 
+	-- lush
+	use("rktjmp/lush.nvim")
+
+	use("~/code/personal/akira")
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

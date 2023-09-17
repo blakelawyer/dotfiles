@@ -1,8 +1,9 @@
-local setup, comment = pcall(require, "Comment")
-if not setup then
-    return
-end
-
-comment.setup()
-
-
+return {
+    {
+        'numToStr/Comment.nvim',
+        opts = {
+        -- add any options here
+        },
+        lazy = false,
+    }
+}
