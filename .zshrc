@@ -113,7 +113,7 @@ alias goals="nvim ~/vimwiki/leisure/Goals.md"
 alias leisure="nvim ~/vimwiki/leisure/Leisure.md"
 alias diary="nvim ~/vimwiki/diary/diary.md -c 'VimwikiDiaryGenerateLinks'"
 alias today="nvim -c 'VimwikiMakeDiaryNote'"
-alias work="tmux new-session -s work -n notes \"nvim -c 'VimwikiMakeDiaryNote'\" \; new-window -n to-do \"nvim ~/vimwiki/labor/Labor.md\""
+alias notes="tmux new-session -s notes -n diary \"nvim -c 'VimwikiMakeDiaryNote'\" \; new-window -n work \"nvim ~/vimwiki/labor/Labor.md\" \; new-window -n goals \"nvim ~/vimwiki/leisure/Goals.md\""
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
