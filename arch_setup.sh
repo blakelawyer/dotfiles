@@ -3,7 +3,7 @@ set -e
 
 # Install dependencies.
 echo "Step (1/5): Installing Dependencies.."
-sudo pacman -S vim neovim tmux neofetch alacritty zsh i3-wm i3status dmenu rofi ttf-jetbrains-mono-nerd npm xorg xorg-xinit xf86-video-intel xorg-server xclip wget firefox keepassxc unzip openssh
+sudo pacman -S vim neovim tmux neofetch alacritty zsh i3-wm i3status dmenu rofi ttf-jetbrains-mono-nerd npm xorg xorg-xinit xf86-video-intel xorg-server xclip wget firefox keepassxc unzip openssh htop
 
 # Change default shell to zsh. 
 echo "Step (2/5): Changing Default Shell to Zsh.."
@@ -24,7 +24,8 @@ ssh-add ~/.ssh/id_ed25519
 xclip -selection clipboard < ~/.ssh/id_ed25519.pub
 echo "VisualHostKey yes" >> ~/.ssh/config
 
-# Re-clone the repo, but with ssh.
+# Re-clone the repo with ssh, and configure git.
 echo "Step (5/5): Cloning dotfiles repository.."
 git clone git@github.com:blakelawyer/dotfiles.git
-
+git config --global user.email "blakethelawyer@gmail.com"
+git config --global user.name "Blake Lawyer"
