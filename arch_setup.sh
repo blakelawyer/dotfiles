@@ -3,7 +3,7 @@ set -e
 
 # Install dependencies.
 echo "Step (1/5): Installing Dependencies.."
-sudo pacman -S vim neovim tmux neofetch alacritty zsh i3-wm i3status dmenu rofi ttf-jetbrains-mono-nerd npm xorg xorg-xinit xf86-video-intel xorg-server xclip wget firefox keepassxc unzip openssh htop
+sudo pacman -S vim neovim tmux neofetch alacritty zsh i3-wm i3status dmenu rofi ttf-jetbrains-mono-nerd npm xorg xorg-xinit xf86-video-intel xorg-server xclip wget firefox keepassxc unzip openssh htop vlc --noconfirm
 
 # Change default shell to zsh. 
 echo "Step (2/5): Changing Default Shell to Zsh.."
