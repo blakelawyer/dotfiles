@@ -15,6 +15,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+mkdir -p $HOME/.oh-my-posh/themes
+curl https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/darkblood.omp.json -o $HOME/.oh-my-posh/themes/darkblood.omp.json
 
 # Create ssh key, also for use with Github authentication.
 echo "Step (4/5): Creating SSH Key.."
