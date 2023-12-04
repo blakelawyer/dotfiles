@@ -12,5 +12,9 @@ return {
 		-- },
 		-- })
 		--
+		-- 	-- options = {
+		-- theme = 'fluoromachine',
+		-- },
+		-- })
 	end,
 }
