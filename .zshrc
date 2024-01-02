@@ -1,4 +1,7 @@
 export ZSH="$HOME/.oh-my-zsh"
+export PATH="$PATH:/opt/flutter/bin"
+export PATH=$PATH:/opt/android-studio/bin
+
 plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh --init --shell zsh --config $HOME/.oh-my-posh/themes/darkblood.omp.json)"
