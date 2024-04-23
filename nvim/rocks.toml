@@ -1,0 +1,29 @@
+[rocks]
+
+[plugins]
+"rocks.nvim" = "2.21.3"
+"rocks-config.nvim" = "1.4.0"
+neorg = "8.4.0"
+"better-escape.nvim" = "scm"
+"comment.nvim" = "0.8.0"
+"rocks-git.nvim" = "1.4.0"
+nvim-treesitter = "0.9.2"
+
+[plugins."gitsigns.nvim"]
+git = "lewis6991/gitsigns.nvim"
+rev = "v0.7"
+
+[plugins."lush.nvim"]
+git = "rktjmp/lush.nvim"
+rev = "v2.0.1"
+
+[plugins."eldritch.nvim"]
+git = "eldritch-theme/eldritch.nvim"
+
+[plugins."lualine.nvim"]
+git = "nvim-lualine/lualine.nvim"
+rev = "compat-nvim-0.6"
+
+[plugins."telescope.nvim"]
+git = "nvim-telescope/telescope.nvim"
+rev = "nvim-0.6"
