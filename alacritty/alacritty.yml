@@ -39,3 +39,6 @@ colors:
     magenta: "#bd236c"
     cyan: "#b3e3f2"
     white: "#effffe"
+
+scrolling:
+  history_size: 20000

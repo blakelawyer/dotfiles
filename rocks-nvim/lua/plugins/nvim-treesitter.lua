@@ -23,6 +23,6 @@ require('nvim-treesitter.configs').setup {
 
   highlight = {
     enable = true,
-    disable = {"lua", "markdown", "rust"},
+    disable = {"lua", "markdown", "rust", "html", "javascript"},
   },
 }

@@ -6,3 +6,9 @@ eval "$(oh-my-posh --init --shell zsh --config $HOME/.oh-my-posh/themes/darkbloo
 neofetch
 
 alias notes="nvim -c 'Neorg journal today' -c 'tabnew ~/neorg/notes/goals.norg' -c 'tabnew ~/neorg/notes/labor/index.norg'"
+
+export PATH=/usr/bin:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig
+export QT_QPA_PLATFORM='xcb'
+
