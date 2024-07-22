@@ -12,3 +12,6 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig
 export QT_QPA_PLATFORM='xcb'
 
+# alias today="~/dotfiles/scripts/daily_note.sh"
+alias today="~/dotfiles/scripts/daily_note.sh | xargs nvim"
+
