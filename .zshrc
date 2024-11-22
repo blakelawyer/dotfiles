@@ -15,7 +15,7 @@ alias zshrc="nvim ~/dotfiles/.zshrc"
 alias today="~/dotfiles/scripts/daily_note.sh | xargs nvim"
 alias week="~/dotfiles/scripts/weekly_note.sh | xargs nvim"
 alias month="~/dotfiles/scripts/monthly_note.sh | xargs nvim"
-alias inbox="~/dotfiles/scripts/inbox.sh"
+alias idea="~/dotfiles/scripts/inbox.sh"
 
 alias dotfiles="cd ~/dotfiles"
 alias scripts="cd ~/dotfiles/scripts"
@@ -32,3 +32,8 @@ alias weekly="cd ~/notes/periodic/1-weekly"
 alias monthly="cd ~/notes/periodic/2-monthly"
 
 alias notes='cd ~/notes && nvim -p $(~/dotfiles/scripts/daily_note.sh) $(~/dotfiles/scripts/weekly_note.sh) $(~/dotfiles/scripts/monthly_note.sh)'
+
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"

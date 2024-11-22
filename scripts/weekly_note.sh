@@ -3,10 +3,13 @@
 current_date=$(date +%Y-%m-%d)
 
 start_date=$(date -d "last monday" +%Y-%m-%d)
+if [ "$(date +%u)" -eq 1 ]; then
+    start_date=$(date +%Y-%m-%d)
+fi
 start_month=$(date -d "$start_date" +%-m)
 start_day=$(date -d "$start_date" +%-d)
 
-end_date=$(date -d "next sunday" +%Y-%m-%d)
+end_date=$(date -d "$start_date + 6 days" +%Y-%m-%d)
 end_month=$(date -d "$end_date" +%-m)
 end_day=$(date -d "$end_date" +%-d)
 
@@ -21,7 +24,7 @@ else
 
     cp "$template_path" "$file_path"
 
-    formatted_date="# Week of $start_month/$start_day to $end_month/$end_day"
+    formatted_date="# Week of $start_month\/$start_day to $end_month\/$end_day"
 
     sed -i "1s/.*/$formatted_date/" "$file_path"
 
