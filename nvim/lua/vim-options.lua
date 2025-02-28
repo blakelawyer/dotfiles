@@ -6,6 +6,7 @@ vim.cmd("set softtabstop=4")
 vim.cmd("set shiftwidth=4")
 
 local opt = vim.opt
+opt.clipboard:append("unnamedplus")
 opt.undofile = true
 opt.relativenumber = true
 opt.number = true
