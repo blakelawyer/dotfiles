@@ -17,3 +17,9 @@ alias dotfiles="cd ~/dotfiles"
 alias scripts="cd ~/dotfiles/scripts"
 alias archive="cd ~/notes/archive"
 alias notes='nvim -p ~/notes/notes.md'
+
+# pyenv configuration
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
