@@ -55,9 +55,8 @@ tiling_drag modifier titlebar
 bindsym $mod+Return exec alacritty
 
 # open rofi menu
-bindsym $mod+d exec --no-startup-id ~/.config/rofi/launchers/type-3/launcher.sh
-bindsym $mod+p exec --no-startup-id ~/.config/rofi/powermenu/type-2/powermenu.sh
-#bindsym $mod+d exec rofi -show drun
+bindsym $mod+d exec --no-startup-id rofi -show drun
+#bindsym $mod+p exec --no-startup-id ~/.config/rofi/powermenu/type-2/powermenu.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill
