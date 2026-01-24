@@ -14,11 +14,12 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 log "Step (1/5): Installing Dependencies..."
 PACKAGES=(
     vim neovim tmux fastfetch alacritty zsh
-    i3-wm i3status dmenu rofi bumblebee-status
+    i3-wm i3status dmenu rofi
     ttf-jetbrains-mono-nerd
     npm xterm xorg xorg-xinit xf86-video-intel xclip
     wget firefox keepassxc unzip openssh htop vlc git base-devel
     ripgrep fd zathura zathura-pdf-mupdf texlive-most python-pip
+    go pyenv python-i3ipc
 )
 FAILED_PACKAGES=()
 for pkg in "${PACKAGES[@]}"; do
@@ -55,11 +56,26 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 [[ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]] && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
-# Install oh-my-posh
-curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+# Install oh-my-posh to ~/bin (no sudo required)
+mkdir -p "$HOME/bin"
+curl -s https://ohmyposh.dev/install.sh | bash -s -- -d "$HOME/bin"
 mkdir -p "$HOME/.oh-my-posh/themes"
 curl -fsSL https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/darkblood.omp.json \
     -o "$HOME/.oh-my-posh/themes/darkblood.omp.json"
+
+# Install yay (AUR helper)
+if ! command -v yay &>/dev/null; then
+    log "Installing yay..."
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    (cd /tmp/yay && makepkg -si --noconfirm)
+    rm -rf /tmp/yay
+fi
+
+# Install AUR packages
+yay -S --needed --noconfirm bumblebee-status
+
+# Copy akira theme for bumblebee-status
+sudo cp "$HOME/dotfiles/bumblebee-status/themes/akira.json" /usr/share/bumblebee-status/themes/
 
 # Step 4: Create SSH key
 log "Step (4/5): Creating SSH Key..."
