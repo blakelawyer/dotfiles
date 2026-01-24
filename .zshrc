@@ -4,8 +4,6 @@ export PATH=$PATH:/home/blawyer/.local/bin
 plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh --init --shell zsh --config $HOME/.oh-my-posh/themes/darkblood.omp.json)"
-echo ""
-neofetch
 
 export PATH=/usr/bin:$PATH
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
