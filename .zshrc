@@ -17,6 +17,7 @@ alias dotfiles="cd ~/dotfiles"
 alias scripts="cd ~/dotfiles/scripts"
 alias archive="cd ~/notes/archive"
 alias notes='nvim -p ~/notes/notes.md'
+alias journal='nvim ~/notes/journal.md -c "ZenMode"'
 
 # pyenv configuration
 export PATH="$HOME/.pyenv/bin:$PATH"
