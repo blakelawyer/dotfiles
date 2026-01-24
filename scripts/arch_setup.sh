@@ -14,7 +14,7 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 log "Step (1/5): Installing Dependencies..."
 PACKAGES=(
     vim neovim tmux fastfetch alacritty zsh
-    i3-wm i3status dmenu rofi
+    i3-wm i3status dmenu rofi bumblebee-status
     ttf-jetbrains-mono-nerd
     npm xterm xorg xorg-xinit xf86-video-intel xclip
     wget firefox keepassxc unzip openssh htop vlc git base-devel

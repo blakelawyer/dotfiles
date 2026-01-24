@@ -1,0 +1,13 @@
+{
+	"icons": [ "awesome-fonts" ],
+	"defaults": {
+		"separator-block-width": 0
+	},
+	"cycle": [
+		{"fg": "#1f1f39", "bg": "#b3e3f2"},
+		{"fg": "#1f1f39", "bg": "#ff6e6e"},
+		{"fg": "#1f1f39", "bg": "#6be28d"},
+		{"fg": "#1f1f39", "bg": "#fbdda7"},
+		{"fg": "#1f1f39", "bg": "#9aa4ca"}
+	]
+}

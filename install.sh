@@ -22,6 +22,10 @@ ln -s "$HOME/dotfiles/i3" "$HOME/.config/i3"
 rm -rf "$HOME/.config/alacritty"
 ln -s "$HOME/dotfiles/alacritty" "$HOME/.config/alacritty"
 
+# bumblebee-status
+rm -rf "$HOME/.config/bumblebee-status"
+ln -s "$HOME/dotfiles/bumblebee-status" "$HOME/.config/bumblebee-status"
+
 # xinitrc
 rm -rf "$HOME/.xinitrc"
 ln -s "$HOME/dotfiles/.xinitrc" "$HOME/.xinitrc"
