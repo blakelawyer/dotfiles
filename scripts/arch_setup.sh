@@ -7,17 +7,29 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 log() { echo -e "${GREEN}[INFO]${NC} $1"; }
+warn() { echo -e "${RED}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 
 # Step 1: Install dependencies
 log "Step (1/5): Installing Dependencies..."
-sudo pacman -S --needed --noconfirm \
-    vim neovim tmux fastfetch alacritty zsh \
-    i3-wm i3status dmenu rofi \
-    ttf-jetbrains-mono-nerd \
-    npm xterm xorg xorg-xinit xf86-video-intel xclip \
-    wget firefox keepassxc unzip openssh htop vlc git base-devel \
+PACKAGES=(
+    vim neovim tmux fastfetch alacritty zsh
+    i3-wm i3status dmenu rofi
+    ttf-jetbrains-mono-nerd
+    npm xterm xorg xorg-xinit xf86-video-intel xclip
+    wget firefox keepassxc unzip openssh htop vlc git base-devel
     ripgrep fd zathura zathura-pdf-mupdf texlive-most python-pip
+)
+FAILED_PACKAGES=()
+for pkg in "${PACKAGES[@]}"; do
+    if ! sudo pacman -S --needed --noconfirm "$pkg" 2>/dev/null; then
+        warn "Failed to install: $pkg"
+        FAILED_PACKAGES+=("$pkg")
+    fi
+done
+if [[ ${#FAILED_PACKAGES[@]} -gt 0 ]]; then
+    warn "The following packages failed to install: ${FAILED_PACKAGES[*]}"
+fi
 
 # Install neovim-remote for LaTeX synctex support
 pip install --user --break-system-packages neovim-remote
