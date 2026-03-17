@@ -6,7 +6,9 @@ source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh --init --shell zsh --config $HOME/.oh-my-posh/themes/darkblood.omp.json)"
 
 export PATH=/usr/bin:$PATH
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig
 export QT_QPA_PLATFORM='xcb'
 
