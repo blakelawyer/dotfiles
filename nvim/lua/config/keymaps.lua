@@ -40,6 +40,7 @@ map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 map("n", "<leader>cl", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
+map("n", "<leader>cc", vim.lsp.codelens.run, { desc = "Run codelens" })
 
 -- toggles
 map("n", "<leader>uw", function() vim.o.wrap = not vim.o.wrap end, { desc = "Toggle wrap" })
@@ -52,6 +53,10 @@ map(
 )
 map("n", "<leader>uf", "<cmd>FormatDisable<cr>", { desc = "Disable format-on-save" })
 map("n", "<leader>uF", "<cmd>FormatEnable<cr>", { desc = "Enable format-on-save" })
+map("n", "<leader>uh", function()
+    local buf = { bufnr = 0 }
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(buf), buf)
+end, { desc = "Toggle inlay hints" })
 
 -- visual mode
 map("v", "<", "<gv", { desc = "Indent left, keep selection" })

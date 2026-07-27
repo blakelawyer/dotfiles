@@ -24,6 +24,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
 })
 
+-- No LspAttach autocmd here on purpose. 0.12 sets K, grn, gra, grr, gri, grt,
+-- grx and gO per-buffer itself, and inlay hints / codelens are switched on
+-- globally in plugins/lsp.lua -- see the comment there.
+
 -- prose
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("prose"),

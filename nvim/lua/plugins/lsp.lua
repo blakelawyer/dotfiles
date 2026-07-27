@@ -17,7 +17,9 @@ return {
                     runtime = { version = "LuaJIT" },
                     workspace = { checkThirdParty = false },
                     telemetry = { enable = false },
-                    hint = { enable = true },
+                    -- arrayIndex off: it annotates every element of every table
+                    -- literal, which buries the hints that actually say something.
+                    hint = { enable = true, arrayIndex = "Disable", setType = true },
                 },
             },
         })
@@ -30,6 +32,13 @@ return {
                     analysis = {
                         typeCheckingMode = "standard",
                         diagnosticMode = "openFilesOnly",
+                        inlayHints = {
+                            callArgumentNames = true,
+                            functionReturnTypes = true,
+                            variableTypes = true,
+                            -- noisy in generic-heavy code, and this codebase has plenty
+                            genericTypes = false,
+                        },
                     },
                 },
             },
@@ -77,8 +86,24 @@ return {
             }
         end
 
+        -- ts_ls keys inlay hints off the language, not the server, so the same
+        -- block has to be registered twice.
+        local ts_inlay_hints = {
+            includeInlayParameterNameHints = "literal",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+        }
+
         vim.lsp.config("ts_ls", {
             init_options = ts_init,
+            settings = {
+                typescript = { inlayHints = ts_inlay_hints },
+                javascript = { inlayHints = ts_inlay_hints },
+            },
             filetypes = {
                 "javascript",
                 "javascriptreact",
@@ -96,6 +121,16 @@ return {
                     analyses = { unusedparams = true, unusedwrite = true },
                     staticcheck = true,
                     gofumpt = true,
+                    hints = {
+                        assignVariableTypes = true,
+                        compositeLiteralFields = true,
+                        compositeLiteralTypes = true,
+                        constantValues = true,
+                        functionTypeParameters = true,
+                        parameterNames = true,
+                        rangeVariableTypes = true,
+                    },
+                    codelenses = { generate = true, test = true, tidy = true, upgrade_dependency = true },
                 },
             },
         })
@@ -133,6 +168,18 @@ return {
             "jsonls",
             "clangd",
         })
+
+        -- Both default to off, so the servers' hint/codelens settings above
+        -- render nothing until this runs.
+        --
+        -- No LspAttach hook and no vim.lsp.codelens.refresh() loop: as of 0.12
+        -- these are "capabilities" (see lsp/_capability.lua). A global enable
+        -- sets a marker that vim.lsp.client re-checks on every attach, and it
+        -- guards on supports_method itself -- so servers that don't offer the
+        -- method are skipped, and buffers opened later are picked up for free.
+        -- The old refresh({ bufnr }) form is deprecated for removal in 0.13.
+        vim.lsp.inlay_hint.enable(true)
+        vim.lsp.codelens.enable(true)
 
         vim.diagnostic.config({
             severity_sort = true,
