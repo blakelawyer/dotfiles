@@ -127,15 +127,19 @@ return {
                 { desc = "Prev class start" }
             )
 
+            -- Under <leader>c (code), not the <leader>a the textobjects README
+            -- suggests: <leader>a is the AI-plugin convention and claudecode.nvim
+            -- claims <leader>ac/af/ar/ab/as/... A bare <leader>a alongside those
+            -- would be an ambiguous prefix, stalling every swap for timeoutlen.
             vim.keymap.set(
                 "n",
-                "<leader>a",
+                "<leader>cs",
                 function() swap.swap_next("@parameter.inner") end,
                 { desc = "Swap parameter next" }
             )
             vim.keymap.set(
                 "n",
-                "<leader>A",
+                "<leader>cS",
                 function() swap.swap_previous("@parameter.inner") end,
                 { desc = "Swap parameter prev" }
             )

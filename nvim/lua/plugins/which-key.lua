@@ -12,6 +12,7 @@ return {
             { "<leader>b", group = "buffer" },
             { "<leader>s", group = "session" },
             { "<leader>t", group = "test" },
+            { "<leader>a", group = "ai" },
             { "g", group = "goto" },
             { "gr", group = "lsp" },
             { "]", group = "next" },
