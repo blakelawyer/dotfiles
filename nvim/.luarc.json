@@ -1,5 +1,8 @@
 {
+    "runtime.version": "LuaJIT",
     "diagnostics.globals": [
-        "vim"
-    ]
+        "vim",
+        "Snacks"
+    ],
+    "workspace.checkThirdParty": false
 }
