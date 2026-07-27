@@ -42,15 +42,14 @@ map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Line diagnostics" })
 map("n", "<leader>cl", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP info" })
 
 -- toggles
-map("n", "<leader>uw", function()
-    vim.o.wrap = not vim.o.wrap
-end, { desc = "Toggle wrap" })
-map("n", "<leader>us", function()
-    vim.o.spell = not vim.o.spell
-end, { desc = "Toggle spell" })
-map("n", "<leader>ud", function()
-    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-end, { desc = "Toggle diagnostics" })
+map("n", "<leader>uw", function() vim.o.wrap = not vim.o.wrap end, { desc = "Toggle wrap" })
+map("n", "<leader>us", function() vim.o.spell = not vim.o.spell end, { desc = "Toggle spell" })
+map(
+    "n",
+    "<leader>ud",
+    function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
+    { desc = "Toggle diagnostics" }
+)
 map("n", "<leader>uf", "<cmd>FormatDisable<cr>", { desc = "Disable format-on-save" })
 map("n", "<leader>uF", "<cmd>FormatEnable<cr>", { desc = "Enable format-on-save" })
 

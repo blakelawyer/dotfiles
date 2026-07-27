@@ -3,3 +3,7 @@ indent_width = 4
 column_width = 120
 quote_style = "AutoPreferDouble"
 call_parentheses = "Always"
+# keep one-statement closures on a single line, so lazy.nvim `keys` entries like
+#   { "<leader>ff", function() Snacks.picker.files() end, desc = "Find files" },
+# stay as one readable row instead of exploding to six
+collapse_simple_statement = "FunctionOnly"

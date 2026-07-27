@@ -37,9 +37,7 @@ return {
 
         vim.lsp.config("ruff", {
             -- basedpyright owns hover; ruff owns lint, fix and imports
-            on_attach = function(client)
-                client.server_capabilities.hoverProvider = false
-            end,
+            on_attach = function(client) client.server_capabilities.hoverProvider = false end,
         })
 
         vim.lsp.config("bashls", {

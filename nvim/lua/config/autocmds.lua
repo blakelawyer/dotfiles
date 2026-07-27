@@ -1,13 +1,9 @@
-local function augroup(name)
-    return vim.api.nvim_create_augroup("cfg_" .. name, { clear = true })
-end
+local function augroup(name) return vim.api.nvim_create_augroup("cfg_" .. name, { clear = true }) end
 
 -- highlight on yank (0.12 has no default for this)
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = augroup("yank"),
-    callback = function()
-        vim.hl.on_yank({ higroup = "Visual", timeout = 150 })
-    end,
+    callback = function() vim.hl.on_yank({ higroup = "Visual", timeout = 150 }) end,
 })
 
 -- restore the last cursor position
