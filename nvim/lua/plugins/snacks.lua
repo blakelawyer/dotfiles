@@ -20,12 +20,8 @@ return {
         notifier = { enabled = true, timeout = 3000, style = "compact" },
         dashboard = {
             enabled = true,
-            -- Panes only split when the window fits them: snacks computes
-            -- floor((cols + pane_gap) / (width + pane_gap)) and folds pane 2 back
-            -- into pane 1 below that. At the default width of 60 that needs 124
-            -- columns, so a half-screen i3 split (~120) would silently collapse to
-            -- a single column. 50 needs 104, and is also the exact display width
-            -- of the NEOVIM banner -- going narrower would clip it.
+            -- Exactly the display width of the NEOVIM banner, so the key list
+            -- lines up under the art instead of spreading wider than it.
             width = 50,
             preset = {
                 -- `header` is deliberately absent: leaving it unset keeps the stock
@@ -51,23 +47,7 @@ return {
             },
             sections = {
                 { section = "header" },
-                { section = "keys", gap = 1, padding = 1 },
-                { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-                -- projects come from v:oldfiles resolved to their git root, so no
-                -- zoxide dependency. Picking one chdirs and restores its session.
-                { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-                {
-                    pane = 2,
-                    icon = " ",
-                    title = "Git Status",
-                    section = "terminal",
-                    enabled = function() return Snacks.git.get_root() ~= nil end,
-                    cmd = "git status --short --branch --renames",
-                    height = 5,
-                    padding = 1,
-                    ttl = 60,
-                    indent = 3,
-                },
+                { section = "keys", padding = 1 },
                 { section = "startup" },
             },
         },
