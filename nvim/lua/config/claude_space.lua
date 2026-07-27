@@ -1,53 +1,86 @@
--- <Space>ac from inside the Claude terminal prompt, without eating prose.
+-- <Space>ac from inside the Claude terminal prompt, with zero typing latency.
 --
 -- Leader is Space, and Space is also the character between every word typed to
--- Claude, so a plain t-mode <Space>ac map matches mid-sentence: "according"
--- loses its " ac" and the window slams shut. Prose and a deliberate leader
--- press carry the same characters -- what differs is the TIMING around them.
--- " ac" inside a word is always followed by another key within a fraction of a
--- second; "Space a c" pressed as a chord is followed by silence.
+-- Claude, so a plain t-mode <Space>ac map matches mid-sentence. The first cut
+-- of this module intercepted <Space> and blocked in vim.wait to peek at the
+-- next key -- which made every space render a beat late and typing feel laggy.
 --
--- So the Claude buffer maps bare <Space> (see snacks_win_opts in
--- plugins/claude.lua) to this: peek at what follows the space, and either
--- toggle or replay everything into the terminal untouched.
+-- This version never intercepts anything. Keys flow to Claude's pty untouched,
+-- and vim.on_key OBSERVES the stream after the fact (it runs post-processing
+-- and cannot delay input). A state machine watches for the leader signature --
+-- Space, a, c, then ~350ms of stillness; prose never matches because " ac"
+-- mid-word ("according", "actually") always has another key hot on its heels.
+-- When the chord completes, the " ac" that already reached the prompt is
+-- erased with three backspaces and the window toggles.
+--
+-- Paste can't trigger this: terminal paste goes vim.paste -> nvim_put, which
+-- never produces key events. Mouse/arrows/anything off-pattern just resets.
 
 local M = {}
 
-local KEY_MS = 400 -- max gap between Space->a and a->c (matches &timeoutlen)
-local TAIL_MS = 350 -- silence required after "ac" before toggling
+local KEY_MS = 400 -- max gap Space->a and a->c
+local TAIL_MS = 350 -- silence after "ac" that confirms the chord
 
--- Keys typed while this callback is running land in the typeahead, where
--- getchar(1) can see them without consuming; getcharstr(0) then takes one.
-local function next_key(ms)
-    local ok = vim.wait(ms, function() return vim.fn.getchar(1) ~= 0 end, 10)
-    return ok and vim.fn.getcharstr(0) or nil
-end
-
--- "n": noremap, so the replayed Space can't re-trigger this map.
--- "i": insert at the FRONT of the typeahead, ahead of keys that arrived while
---      we were peeking -- without it the flushed text lands out of order
---      ("hi there." became "hihere. t" in testing).
--- Special keys (arrows, <BS>) come out of getcharstr in internal termcode
--- form, which feedkeys accepts verbatim, so they replay correctly too.
-local function flush(keys) vim.api.nvim_feedkeys(keys, "ni", false) end
+local state = 0 -- 0 idle | 1 saw Space | 2 saw a | 3 armed (saw c)
+local last = 0
+local timer = vim.uv.new_timer()
 
 -- Swappable in tests, where launching the real claude CLI is unwanted.
 M.toggle = function() vim.cmd("ClaudeCode") end
 
-function M.on_space()
-    local c1 = next_key(KEY_MS)
-    if c1 ~= "a" then
-        return flush(" " .. (c1 or ""))
-    end
-    local c2 = next_key(KEY_MS)
-    if c2 ~= "c" then
-        return flush(" a" .. (c2 or ""))
-    end
-    local c3 = next_key(TAIL_MS)
-    if c3 then
-        return flush(" ac" .. c3)
-    end
-    M.toggle()
+local function claude_buf()
+    local ok, term = pcall(require, "claudecode.terminal")
+    return ok and term.get_active_terminal_bufnr() or nil
+end
+
+local function fire()
+    vim.schedule(function()
+        if state ~= 3 then
+            return
+        end
+        state = 0
+        local buf = claude_buf()
+        if not buf then
+            return
+        end
+        local job = vim.b[buf].terminal_job_id
+        if job then
+            -- The chord's " ac" already landed in the prompt; DEL x3 takes it
+            -- back out before hiding the window.
+            vim.fn.chansend(job, string.rep("\127", 3))
+        end
+        M.toggle()
+    end)
+end
+
+function M.attach()
+    -- Runs on every keypress session-wide, so cheapest checks first. Also:
+    -- on_key callbacks are silently REMOVED on error -- keep this body safe.
+    vim.on_key(function(key, typed)
+        local k = typed ~= "" and typed or key
+        if vim.api.nvim_get_mode().mode ~= "t" then
+            state = 0
+            return
+        end
+        if vim.api.nvim_get_current_buf() ~= claude_buf() then
+            state = 0
+            return
+        end
+        local now = vim.uv.now()
+        local gap = now - last
+        last = now
+        timer:stop()
+        if k == " " then
+            state = 1
+        elseif k == "a" and state == 1 and gap <= KEY_MS then
+            state = 2
+        elseif k == "c" and state == 2 and gap <= KEY_MS then
+            state = 3
+            timer:start(TAIL_MS, 0, fire)
+        else
+            state = 0
+        end
+    end)
 end
 
 return M

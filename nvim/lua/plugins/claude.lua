@@ -18,30 +18,20 @@ return {
             provider = "snacks",
             split_side = "right",
             split_width_percentage = 0.35,
-            snacks_win_opts = {
-                keys = {
-                    -- <leader>ac from INSIDE the prompt. Leader is Space and
-                    -- Claude's prompt takes Space as text, so a plain t-mode
-                    -- <Space>ac map would eat the " ac" out of "according".
-                    -- config/claude_space disambiguates by timing instead:
-                    -- prose always has a key following within ~350ms, a
-                    -- deliberate "Space a c" is followed by silence. Buffer-
-                    -- local (snacks applies win keys with buffer = self.buf),
-                    -- so ordinary terminals and lazygit are untouched.
-                    claude_space_leader = {
-                        "<Space>",
-                        function() require("config.claude_space").on_space() end,
-                        mode = "t",
-                        desc = "Leader passthrough (Space a c toggles)",
-                    },
-                },
-            },
         },
         diff_opts = {
             layout = "vertical",
             auto_resize_terminal = true,
         },
     },
+    config = function(_, opts)
+        require("claudecode").setup(opts)
+        -- vim.on_key observer that makes <leader>ac work from INSIDE the
+        -- prompt without adding any typing latency -- see the comment block
+        -- in config/claude_space.lua for how the chord is disambiguated
+        -- from prose.
+        require("config.claude_space").attach()
+    end,
     -- stylua: ignore
     cmd = {
         "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeSelectModel", "ClaudeCodeAdd",
@@ -50,8 +40,8 @@ return {
         "ClaudeCodeDiffDeny", "ClaudeCodeCloseAllDiffs",
     },
     keys = {
-        -- Inside the prompt, <leader>ac also works: the Claude buffer maps bare
-        -- <Space> through config/claude_space (wired via snacks_win_opts above).
+        -- Inside the prompt, <leader>ac also works: config/claude_space
+        -- (attached in config above) watches the key stream for the chord.
         -- Fallback in case the timing heuristic ever misbehaves. t-mode only:
         -- in normal mode CTRL-Q is a built-in alias for CTRL-V.
         { "<C-q>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Hide Claude" },
