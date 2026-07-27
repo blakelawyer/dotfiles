@@ -18,6 +18,59 @@ return {
             animate = { enabled = false },
         },
         notifier = { enabled = true, timeout = 3000, style = "compact" },
+        dashboard = {
+            enabled = true,
+            -- Panes only split when the window fits them: snacks computes
+            -- floor((cols + pane_gap) / (width + pane_gap)) and folds pane 2 back
+            -- into pane 1 below that. At the default width of 60 that needs 124
+            -- columns, so a half-screen i3 split (~120) would silently collapse to
+            -- a single column. 50 needs 104, and is also the exact display width
+            -- of the NEOVIM banner -- going narrower would clip it.
+            width = 50,
+            preset = {
+                -- `header` is deliberately absent: leaving it unset keeps the stock
+                -- NEOVIM banner and lets it track upstream.
+                --
+                -- The stock key list restated so lazygit can be added. Note the
+                -- telescope-flavoured source names: snacks aliases live_grep -> grep
+                -- and oldfiles -> recent, and Snacks.dashboard.pick() promotes
+                -- snacks.picker to the front of its try-list when the picker is
+                -- enabled, so these resolve to our picker without a `pick` override.
+                -- stylua: ignore
+                keys = {
+                    { icon = " ", key = "f", desc = "Find File",       action = ":lua Snacks.dashboard.pick('files')" },
+                    { icon = " ", key = "n", desc = "New File",        action = ":ene | startinsert" },
+                    { icon = " ", key = "g", desc = "Find Text",       action = ":lua Snacks.dashboard.pick('live_grep')" },
+                    { icon = " ", key = "r", desc = "Recent Files",    action = ":lua Snacks.dashboard.pick('oldfiles')" },
+                    { icon = " ", key = "c", desc = "Config",          action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+                    { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+                    { icon = " ", key = "G", desc = "Lazygit",         action = function() Snacks.lazygit() end, enabled = vim.fn.executable("lazygit") == 1 },
+                    { icon = "󰒲 ", key = "L", desc = "Lazy",            action = ":Lazy" },
+                    { icon = " ", key = "q", desc = "Quit",            action = ":qa" },
+                },
+            },
+            sections = {
+                { section = "header" },
+                { section = "keys", gap = 1, padding = 1 },
+                { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+                -- projects come from v:oldfiles resolved to their git root, so no
+                -- zoxide dependency. Picking one chdirs and restores its session.
+                { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+                {
+                    pane = 2,
+                    icon = " ",
+                    title = "Git Status",
+                    section = "terminal",
+                    enabled = function() return Snacks.git.get_root() ~= nil end,
+                    cmd = "git status --short --branch --renames",
+                    height = 5,
+                    padding = 1,
+                    ttl = 60,
+                    indent = 3,
+                },
+                { section = "startup" },
+            },
+        },
         terminal = {
             win = { style = "terminal", position = "float", border = "rounded" },
         },
