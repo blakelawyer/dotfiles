@@ -20,6 +20,14 @@ PACKAGES=(
     wget firefox keepassxc unzip openssh htop vlc git base-devel
     ripgrep fd zathura zathura-pdf-mupdf texlive-most python-pip
     go pyenv python-i3ipc
+    # nvim toolchain: language servers, formatters, linters. The nvim config
+    # dropped mason, so nothing installs these on first launch -- without them
+    # the servers simply never start.
+    lua-language-server bash-language-server typescript-language-server
+    vue-language-server yaml-language-server vscode-json-languageserver
+    gopls clang
+    ruff stylua shfmt shellcheck gofumpt uv
+    lazygit
 )
 FAILED_PACKAGES=()
 for pkg in "${PACKAGES[@]}"; do
@@ -72,7 +80,11 @@ if ! command -v yay &>/dev/null; then
 fi
 
 # Install AUR packages
-yay -S --needed --noconfirm bumblebee-status
+# prettierd is the only nvim formatter not in the official repos
+yay -S --needed --noconfirm bumblebee-status prettierd
+
+# basedpyright ships on PyPI only
+uv tool install basedpyright
 
 # Copy akira theme for bumblebee-status
 sudo cp "$HOME/dotfiles/bumblebee-status/themes/akira.json" /usr/share/bumblebee-status/themes/
