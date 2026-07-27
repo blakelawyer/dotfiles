@@ -200,7 +200,7 @@ bindsym $mod+r mode "resize"
 
 bar {
     status_command /usr/bin/bumblebee-status \
-        -m progress title vpn network datetime battery \
+        -m progress title vpn mynetwork:network datetime battery \
         -t akira 
 
     position top 
