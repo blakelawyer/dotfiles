@@ -32,6 +32,15 @@ return {
         "ClaudeCodeDiffDeny", "ClaudeCodeCloseAllDiffs",
     },
     keys = {
+        -- Terminal-mode escape hatch. <leader>ac cannot work from inside the
+        -- Claude window: leader is Space, and Claude's prompt takes Space as
+        -- text, so the toggle is unreachable exactly where it's most needed.
+        -- Without this the only ways out are <C-\><C-n> or the mouse.
+        --
+        -- t-mode only. In normal mode CTRL-Q is a built-in alias for CTRL-V
+        -- (visual block), and there's no reason to shadow it -- <leader>ac
+        -- already works everywhere outside the terminal.
+        { "<C-q>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Hide Claude" },
         { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
         { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
         { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume Claude" },
