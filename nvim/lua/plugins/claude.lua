@@ -26,10 +26,10 @@ return {
     },
     config = function(_, opts)
         require("claudecode").setup(opts)
-        -- vim.on_key observer that makes <leader>ac work from INSIDE the
-        -- prompt without adding any typing latency -- see the comment block
-        -- in config/claude_space.lua for how the chord is disambiguated
-        -- from prose.
+        -- vim.on_key observer that makes ALL leader combos work from INSIDE
+        -- the prompt without adding any typing latency (minus a few prose-like
+        -- sequences it denylists) -- see the comment block in
+        -- config/claude_space.lua for how chords are disambiguated from prose.
         require("config.claude_space").attach()
     end,
     -- stylua: ignore
@@ -40,8 +40,9 @@ return {
         "ClaudeCodeDiffDeny", "ClaudeCodeCloseAllDiffs",
     },
     keys = {
-        -- Inside the prompt, <leader>ac also works: config/claude_space
-        -- (attached in config above) watches the key stream for the chord.
+        -- Inside the prompt, these (and every other leader combo) also work:
+        -- config/claude_space (attached in config above) watches the key
+        -- stream for leader chords.
         -- Fallback in case the timing heuristic ever misbehaves. t-mode only:
         -- in normal mode CTRL-Q is a built-in alias for CTRL-V.
         { "<C-q>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Hide Claude" },
