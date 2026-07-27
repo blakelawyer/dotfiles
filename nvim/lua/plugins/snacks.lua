@@ -18,6 +18,14 @@ return {
             animate = { enabled = false },
         },
         notifier = { enabled = true, timeout = 3000, style = "compact" },
+        terminal = {
+            win = { style = "terminal", position = "float", border = "rounded" },
+        },
+        lazygit = {
+            -- snacks feeds lazygit a generated theme derived from the current
+            -- colorscheme, so akira carries over without a lazygit config file
+            configure = true,
+        },
         explorer = { enabled = true, replace_netrw = true },
         picker = {
             enabled = true,
@@ -52,6 +60,12 @@ return {
         { "<leader>fk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
         { "<leader>fn", function() Snacks.picker.notifications() end, desc = "Notification history" },
         { "<leader>f:", function() Snacks.picker.command_history() end, desc = "Command history" },
+        -- Terminal. Many terminal emulators send <C-_> for what the keyboard
+        -- calls Ctrl+/, so both are mapped to the same toggle.
+        { "<C-/>", function() Snacks.terminal.toggle() end, desc = "Toggle terminal", mode = { "n", "t" } },
+        { "<C-_>", function() Snacks.terminal.toggle() end, desc = "Toggle terminal", mode = { "n", "t" } },
+        { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+        { "<leader>gL", function() Snacks.lazygit.log() end, desc = "Lazygit log" },
         { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git status" },
         { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git log" },
         { "<leader>gb", function() Snacks.picker.git_log_file() end, desc = "Git log (file)" },

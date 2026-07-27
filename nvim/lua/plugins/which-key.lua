@@ -10,6 +10,8 @@ return {
             { "<leader>c", group = "code" },
             { "<leader>u", group = "ui/toggle" },
             { "<leader>b", group = "buffer" },
+            { "<leader>s", group = "session" },
+            { "<leader>t", group = "test" },
             { "g", group = "goto" },
             { "gr", group = "lsp" },
             { "]", group = "next" },
