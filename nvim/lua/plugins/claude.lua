@@ -18,6 +18,24 @@ return {
             provider = "snacks",
             split_side = "right",
             split_width_percentage = 0.35,
+            snacks_win_opts = {
+                keys = {
+                    -- <leader>ac from INSIDE the prompt. Leader is Space and
+                    -- Claude's prompt takes Space as text, so a plain t-mode
+                    -- <Space>ac map would eat the " ac" out of "according".
+                    -- config/claude_space disambiguates by timing instead:
+                    -- prose always has a key following within ~350ms, a
+                    -- deliberate "Space a c" is followed by silence. Buffer-
+                    -- local (snacks applies win keys with buffer = self.buf),
+                    -- so ordinary terminals and lazygit are untouched.
+                    claude_space_leader = {
+                        "<Space>",
+                        function() require("config.claude_space").on_space() end,
+                        mode = "t",
+                        desc = "Leader passthrough (Space a c toggles)",
+                    },
+                },
+            },
         },
         diff_opts = {
             layout = "vertical",
@@ -32,22 +50,10 @@ return {
         "ClaudeCodeDiffDeny", "ClaudeCodeCloseAllDiffs",
     },
     keys = {
-        -- Terminal-mode escape hatch, because <leader>ac cannot work from inside
-        -- the Claude window and cannot be made to.
-        --
-        -- Leader is Space, and Claude's prompt takes Space as literal text. A
-        -- t-mode "<Space>ac" would therefore match ordinary prose: typing
-        -- "fix this according to the docs" resolves " ac" as the mapping and
-        -- yields "fix thiscording to the docs" with the window toggled shut
-        -- mid-sentence. The whole <leader>a family collides the same way --
-        -- " ad"d, " as", " ab"out, " ar"e are all words you'd type to Claude.
-        --
-        -- M-Space is the nearest safe thing: still the space bar, but modified,
-        -- so it can never be confused with text. Free here -- i3 uses Mod4, so
-        -- $mod+space is Super+Space, and Alacritty doesn't rebind it.
-        { "<M-Space>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "Toggle Claude" },
-        -- Fallback for terminals that swallow M-Space. t-mode only: in normal
-        -- mode CTRL-Q is a built-in alias for CTRL-V.
+        -- Inside the prompt, <leader>ac also works: the Claude buffer maps bare
+        -- <Space> through config/claude_space (wired via snacks_win_opts above).
+        -- Fallback in case the timing heuristic ever misbehaves. t-mode only:
+        -- in normal mode CTRL-Q is a built-in alias for CTRL-V.
         { "<C-q>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Hide Claude" },
         { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
         { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
