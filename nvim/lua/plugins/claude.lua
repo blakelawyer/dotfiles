@@ -32,14 +32,22 @@ return {
         "ClaudeCodeDiffDeny", "ClaudeCodeCloseAllDiffs",
     },
     keys = {
-        -- Terminal-mode escape hatch. <leader>ac cannot work from inside the
-        -- Claude window: leader is Space, and Claude's prompt takes Space as
-        -- text, so the toggle is unreachable exactly where it's most needed.
-        -- Without this the only ways out are <C-\><C-n> or the mouse.
+        -- Terminal-mode escape hatch, because <leader>ac cannot work from inside
+        -- the Claude window and cannot be made to.
         --
-        -- t-mode only. In normal mode CTRL-Q is a built-in alias for CTRL-V
-        -- (visual block), and there's no reason to shadow it -- <leader>ac
-        -- already works everywhere outside the terminal.
+        -- Leader is Space, and Claude's prompt takes Space as literal text. A
+        -- t-mode "<Space>ac" would therefore match ordinary prose: typing
+        -- "fix this according to the docs" resolves " ac" as the mapping and
+        -- yields "fix thiscording to the docs" with the window toggled shut
+        -- mid-sentence. The whole <leader>a family collides the same way --
+        -- " ad"d, " as", " ab"out, " ar"e are all words you'd type to Claude.
+        --
+        -- M-Space is the nearest safe thing: still the space bar, but modified,
+        -- so it can never be confused with text. Free here -- i3 uses Mod4, so
+        -- $mod+space is Super+Space, and Alacritty doesn't rebind it.
+        { "<M-Space>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "Toggle Claude" },
+        -- Fallback for terminals that swallow M-Space. t-mode only: in normal
+        -- mode CTRL-Q is a built-in alias for CTRL-V.
         { "<C-q>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Hide Claude" },
         { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
         { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
