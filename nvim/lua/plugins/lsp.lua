@@ -196,5 +196,15 @@ return {
                 },
             },
         })
+
+        -- Opening a file should not editorialise about it. The servers still run
+        -- and still publish -- this only switches off the display handlers, so
+        -- completion, hover, goto, rename, inlay hints and codelens are unaffected
+        -- and the config above is what you get the moment you turn them back on.
+        --
+        -- vim.diagnostic.get() is deliberately not gated by this, so <leader>e
+        -- still floats the current line's diagnostics on demand, and <leader>ud
+        -- flips everything back on for the session.
+        vim.diagnostic.enable(false)
     end,
 }
